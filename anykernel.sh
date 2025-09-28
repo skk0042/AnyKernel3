@@ -40,6 +40,8 @@ case $kernel_version in
     6.6*) ksu_supported=true ;;
     *) ksu_supported=false ;;
 esac
+ui_print "本内核来自：Github@skk0042 （486）"
+ui_print " "
 
 ui_print "  -> ksu_supported: $ksu_supported"
 $ksu_supported || abort "  -> Non-GKI device, abort."
@@ -56,8 +58,8 @@ if [ -d /data/adb/magisk ] || [ -f /sbin/.magisk ]; then
     ui_print " Flashing the kernel may brick your device"
     ui_print " Do you want to continue?"
     ui_print "-----------------"
-    ui_print " 音量上键：退出脚本 (推荐)"
-    ui_print " 音量下键：继续安装 (风险自负)"
+    ui_print " 音量上键：退出脚本"
+    ui_print " 音量下键：继续安装"
     ui_print " Volume UP: Exit script (recommended)"
     ui_print " Volume DOWN: Continue installation (at your own risk)"
     ui_print "============="
@@ -86,8 +88,10 @@ if [ -d /data/adb/magisk ] || [ -f /sbin/.magisk ]; then
     esac
 fi
 
-ui_print "开始安装内核..."
-ui_print "Powered by GitHub@Numbersf (Aq1298 & 咿云冷雨)"
+ui_print "开始安装Sukisu内核..."
+ui_print "Powered by GitHub@skk0042 (486)"
+ui_print "Powered by GitHub@skk0042 (486)"
+ui_print "Powered by GitHub@skk0042 (486)"
 
 if [ -L "/dev/block/bootdevice/by-name/init_boot_a" ] || [ -L "/dev/block/by-name/init_boot_a" ]; then
     split_boot
