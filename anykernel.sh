@@ -40,9 +40,10 @@ case $kernel_version in
     6.6*) ksu_supported=true ;;
     *) ksu_supported=false ;;
 esac
-ui_print "本内核来自：Github@skk0042 (486 & 意驰)"
-ui_print " "
+ui_print "本内核来自：Github@skk0042 (486）"
 ui_print "qq群:288482918"
+ui_print ""
+ui_print ""
 
 ui_print "  -> ksu_supported: $ksu_supported"
 $ksu_supported || abort "  -> Non-GKI device, abort."
