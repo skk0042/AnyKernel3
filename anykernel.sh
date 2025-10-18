@@ -5,7 +5,7 @@
 ### AnyKernel setup
 # global properties
 properties() { '
-kernel.string=OnePlus Kernel by Numbersf
+kernel.string=OnePlus Kernel by skk0042
 do.devicecheck=0
 do.modules=0
 do.systemless=0
@@ -40,8 +40,10 @@ case $kernel_version in
     6.6*) ksu_supported=true ;;
     *) ksu_supported=false ;;
 esac
-ui_print "本内核来自：Github@skk0042 (486）"
-ui_print "qq群:288482918"
+ui_print "============="
+ui_print "本内核来自：@skk0042 (486）"
+ui_print "============="
+ui_print ""
 ui_print ""
 ui_print ""
 
