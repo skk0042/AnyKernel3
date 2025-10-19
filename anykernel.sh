@@ -190,7 +190,7 @@ fi
 if [ -n "$ZRAM_MODULE_PATH" ]; then
     KSUD_PATH="/data/adb/ksud"
     ui_print " "
-    ui_print " 🔧是否安装 ZRAM 模块（开启lz4压缩算法）?"
+    ui_print " 🔧是否安装 ZRAM 模块（更多的压缩算法）?"
     ui_print "  - 音量上：跳过安装"
     ui_print "  - 音量下：安装模块"
 
