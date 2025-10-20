@@ -100,7 +100,7 @@ if [ -f "$home/tools/patch_android" ]; then
                 if [ "$ORIG_MD5" = "$NEW_MD5" ]; then
                     ui_print " ⚠️ KPM 修补完成，但内核未发生变化"
                 else
-                    ui_print " ✅ KPM 修补成功"
+                    ui_print " ✅ KPM 修补成功！"
                 fi
             else
                 ui_print " ❌ KPM 修补失败"
