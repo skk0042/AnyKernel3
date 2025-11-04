@@ -1,9 +1,8 @@
 ### AnyKernel3 Ramdisk Mod Script
-## Anykernel3 Make By @Skk0042
 ### AnyKernel setup
 # global properties
 properties() { '
-kernel.string=OnePlus Kernel by skk0042
+kernel.string=OnePlus Kernel build by @486
 do.devicecheck=0
 do.modules=0
 do.systemless=0
@@ -40,10 +39,8 @@ case $kernel_version in
 esac
 ui_print " "
 ui_print " 📝本内核来自："
-ui_print " ◾️@skk0042 (qq428579)"
+ui_print " ◾️@486 (qq428579)"
 ui_print " ◾️酷安:水手服的精彩"
-ui_print " ◾️刷入前请查看是否为当前设备的Anykernel3包 否则后果自负"
-ui_print " ◾️刷入来自酷安和组织以外的导致一切后果自负"
 
 $ksu_supported || abort "  -> 非GKI设备，终止安装。"
 
@@ -57,7 +54,7 @@ fi
 
 if [ -n "$MODULE_PATH" ]; then
     KSUD_PATH="/data/adb/ksud"
-    ui_print " 🛠是否安装 ZRAM 模块？(开启更多的压缩算法 如lz4kd)"
+    ui_print " 🛠是否安装 ZRAM 模块？(开启更多的压缩算法，不懂跳过)"
     ui_print " ◾️音量上：跳过"
     ui_print " ◾️音量下：安装"
     key_click=""
@@ -179,7 +176,7 @@ done
 
 case "$key_click" in
     "KEY_VOLUMEUP")
-        ui_print " ◾️正在打开群组链接..."
+        ui_print " ◾️正在打开组织链接..."
         am start -a android.intent.action.VIEW -d "https://qun.qq.com/universal-share/share?ac=1&authKey=09GHYeotBX4cNL1o8w%2FF8j%2Bfx%2FcPIU0H5tMp5lO8ZXciwUxETL%2BEwe8gPbaldshS&busi_data=eyJncm91cENvZGUiOiIyODg0ODI5MTgiLCJ0b2tlbiI6InZSOUNTWWx1WVNJNWYrNlpUYWZEQkF4dmpQWVVwZFc1N1REVFFjYmpTR25MYldzTWxnK2NZRXhiVEZkbUtIUE8iLCJ1aW4iOiI0Mjg1NzkifQ%3D%3D&data=WwMC8aE8oVTgoGkPUiXAIs8nMVJZU4UkiWcX8qYMoFoNnTpIwVY7GCCZRX_1UO_Yi8udPzZuE_jESwmq4ABrwQ&svctype=4&tempid=h5_group_info" > /dev/null 2>&1
         ui_print " 💖感谢您的支持！" 
         ;;
