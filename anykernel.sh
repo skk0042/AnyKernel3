@@ -46,43 +46,6 @@ $ksu_supported || abort "  -> 非GKI设备，终止安装。"
 
 ui_print " "
 
-if [ -f "$home/zram.zip" ]; then
-    MODULE_PATH="$home/zram.zip"
-else
-    MODULE_PATH=""
-fi
-
-if [ -n "$MODULE_PATH" ]; then
-    KSUD_PATH="/data/adb/ksud"
-    ui_print " 🛠是否安装 ZRAM 模块？(开启更多的压缩算法，不懂跳过)"
-    ui_print " ◾️音量上：跳过"
-    ui_print " ◾️音量下：安装"
-    key_click=""
-    while [ "$key_click" = "" ]; do
-        key_click=$(getevent -qlc 1 | awk '{ print $3 }' | grep 'KEY_VOLUME')
-        sleep 0.2
-    done
-
-    case "$key_click" in
-        "KEY_VOLUMEDOWN")
-            if [ -f "$KSUD_PATH" ]; then
-                ui_print " ◾️正在安装 ZRAM 模块..."
-                /data/adb/ksud module install "$MODULE_PATH"
-                ui_print " ✅安装完成!"
-            else
-                ui_print " ❌未找到 KSUD，跳过安装。"
-            fi
-            ;;
-        "KEY_VOLUMEUP")
-            ui_print " ❕已跳过 ZRAM 模块安装。"
-            ;;
-        *)
-            ui_print " ❕未知按键输入，已跳过 ZRAM 模块安装。"
-            ;;
-    esac
-    ui_print " "
-fi
-
 if [ ! -f "$home/Image" ]; then
     ui_print " ❌ 错误：内核镜像文件 Image 未找到"
     abort "❌安装失败：没有内核镜像文件"
