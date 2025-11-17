@@ -1,10 +1,10 @@
 🔍 Author's Biography:
 
-- Kernel Author: @486​
+- Kernel Author: @486
 - Coolapk: @水手服的精彩
 - QQ Group ID: 288482918
 
-​
+
 ⚠️ Critical Note:
 
 - Back up your original boot image before flashing.
@@ -13,22 +13,22 @@
  
 ✨ Key Features:
  
-- Perfect Fengchi (supported on 8E / 9400+)​
-- BBG integrated​
+- Perfect Fengchi (supported on 8E / 9400+)
+- BBG integrated
 - KPM enabled:
   1.Choose "Follow Kernel" → Click "Next"
   2.Make your selection via volume control keys
 - SuSFS v2.0.0 (powered by Inline Hook)
 - Compression Support: lz4 v1.10.0 & zstd v1.5.7
 
-   
+
 ⚠️ Disclaimer:
  
-1. Updates & Liability
+1.Updates & Liability
 Files are released via myself / Coolapk / my group chat, with updates/maintenance on an ad-hoc basis.
 We assume no liability for any damage, data loss, or issues caused by file usage or content.
-​
-2. Usage Compliance
+
+2.Usage Compliance
 For technical discussion only — illegal use (e.g., infringement, unauthorized modification) is strictly prohibited.
 If illegal activity is detected, preserve evidence and contact us promptly.
  
