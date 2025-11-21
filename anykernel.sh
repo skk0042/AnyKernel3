@@ -35,7 +35,7 @@ case $kernel_version in
     *) ksu_supported=false ;;
 esac
 ui_print " "
-ui_print " This kernel is from:"
+ui_print " Kernel Builder:"
 ui_print " - @486 (QQ: 428579)"
 ui_print " - Coolapk: @水手服的精彩"
 $ksu_supported || abort "  -> Non-GKI device, installation aborted."
@@ -44,68 +44,7 @@ if [ ! -f "$home/Image" ]; then
     ui_print " × Error: Kernel image file 'Image' not found"
     abort "× Installation failed: No kernel image file"
 fi
-if [ -f "$home/tools/patch_android" ]; then
-    KPTOOL="$home/tools/patch_android"
-    KERNEL_IMAGE="$home/Image"
-    ui_print " Tools: Perform KPM patching?"
-    ui_print " - Volume Up: Skip"
-    ui_print " - Volume Down: Proceed"
-    ui_print " "
-    key_click=""
-    while [ "$key_click" = "" ]; do
-        key_click=$(getevent -qlc 1 | awk '{ print $3 }' | grep 'KEY_VOLUME')
-        sleep 0.2
-    done
-    case "$key_click" in
-        "KEY_VOLUMEDOWN")
-            ui_print " Tools: Performing KPM patching..."
-            ORIG_SIZE=$(stat -c%s "$KERNEL_IMAGE" 2>/dev/null || stat -f%z "$KERNEL_IMAGE")
-            ORIG_MD5=$(md5sum "$KERNEL_IMAGE" | cut -d' ' -f1)
-            ui_print "  - Size before patching: $((ORIG_SIZE / 1024 / 1024))MB"
-            ui_print "  - MD5 before patching: ${ORIG_MD5:0:16}"
-            
-            cp "$KPTOOL" "$home/patch_android"
-            chmod 777 "$home/patch_android"
-            
-            ui_print "  - Patching in progress..."
-            cd "$home"
-            ./patch_android
-            PATCH_RESULT=$?
-            cd - > /dev/null
-            
-            if [ -f "$home/oImage" ]; then
-                OIMAGE_SIZE=$(stat -c%s "$home/oImage" 2>/dev/null || stat -f%z "$home/oImage")
-                
-                rm -f "$home/Image"
-                mv "$home/oImage" "$home/Image"
-                
-                NEW_SIZE=$(stat -c%s "$KERNEL_IMAGE" 2>/dev/null || stat -f%z "$KERNEL_IMAGE")
-                NEW_MD5=$(md5sum "$KERNEL_IMAGE" | cut -d' ' -f1)
-                
-                ui_print "  - Size after patching: $((NEW_SIZE / 1024 / 1024))MB"
-                ui_print "  - MD5 after patching: ${NEW_MD5:0:16}"
-                
-                if [ "$ORIG_MD5" = "$NEW_MD5" ]; then
-                    ui_print " ! KPM patching completed, but kernel remains unchanged"
-                else
-                    ui_print " √ KPM patching successful!"
-                fi
-            else
-                ui_print " × KPM patching failed"
-            fi
-            
-            rm -f "$home/patch_android"
-            ;;
-        "KEY_VOLUMEUP")
-            ui_print " Note: KPM patching skipped"
-            ;;
-        *)
-            ui_print " Note: Unknown key input, skipped"
-            ;;
-    esac
-else
-    ui_print " Note: KPM patching tool not found, skipped"
-fi
+
 ui_print " "
 ui_print " Flashing kernel now..."
 if [ -L "/dev/block/bootdevice/by-name/init_boot_a" -o -L "/dev/block/by-name/init_boot_a" ]; then
