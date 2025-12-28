@@ -1,11 +1,8 @@
 ### AnyKernel3 Ramdisk Mod Script
-## KernelSU with SUSFS By Numbersf
-## osm0sis @ xda-developers
-
 ### AnyKernel setup
 # global properties
 properties() { '
-kernel.string=OnePlus Kernel by Numbersf
+kernel.string=OnePlus Kernel build by @486
 do.devicecheck=0
 do.modules=0
 do.systemless=0
@@ -20,7 +17,6 @@ supported.versions=
 supported.patchlevels=
 supported.vendorpatchlevels=
 '; } # end properties
-
 ### AnyKernel install
 ## boot shell variables
 block=boot
@@ -28,10 +24,8 @@ is_slot_device=auto
 ramdisk_compression=auto
 patch_vbmeta_flag=auto
 no_magisk_check=1
-
 # import functions/variables and setup patching - see for reference (DO NOT REMOVE)
 . tools/ak3-core.sh
-
 kernel_version=$(cat /proc/version | awk -F '-' '{print $1}' | awk '{print $3}')
 case $kernel_version in
     4.1*) ksu_supported=true ;;
@@ -40,115 +34,29 @@ case $kernel_version in
     6.6*) ksu_supported=true ;;
     *) ksu_supported=false ;;
 esac
-
-ui_print "  -> ksu_supported: $ksu_supported"
-$ksu_supported || abort "  -> Non-GKI device, abort."
-
-# =============
-# 检测 Root 方式 (Magisk 检测)
-# =============
-if [ -d /data/adb/magisk ] || [ -f /sbin/.magisk ]; then
-    ui_print "============="
-    ui_print " 检测到 Magisk 或残留文件"
-    ui_print " 在此情况下刷写内核可能会导致设备变砖"
-    ui_print " 是否要继续安装？"
-    ui_print " Magisk has been detected (or residual files)."
-    ui_print " Flashing the kernel may brick your device"
-    ui_print " Do you want to continue?"
-    ui_print "-----------------"
-    ui_print " 音量上键：退出脚本 (推荐)"
-    ui_print " 音量下键：继续安装 (风险自负)"
-    ui_print " Volume UP: Exit script (recommended)"
-    ui_print " Volume DOWN: Continue installation (at your own risk)"
-    ui_print "============="
-
-    key_click=""
-    while [ "$key_click" = "" ]; do
-        key_click=$(getevent -qlc 1 | awk '{ print $3 }' | grep 'KEY_VOLUME')
-        sleep 0.2
-    done
-
-    case "$key_click" in
-        "KEY_VOLUMEUP")
-            ui_print " 您选择了退出脚本，已安全终止安装。"
-            ui_print " You chose to exit. Installation aborted safely."
-            exit 0
-            ;;
-        "KEY_VOLUMEDOWN")
-            ui_print " 您选择了继续安装，请注意风险!"
-            ui_print " You chose to continue installation. Proceed with caution!"
-            ;;
-        *)
-            ui_print " 未知按键输入，脚本已退出。"
-            ui_print " Unknown key input. Exiting script."
-            exit 1
-            ;;
-    esac
+ui_print " "
+ui_print " 本内核来自:"
+ui_print " - 486 (QQ: 428579)"
+ui_print " - 酷安:@水手服的精彩"
+ui_print " - TG:@SKK0042NB"
+ui_print " - 企鹅组织:288482918"
+$ksu_supported || abort "  -> 非GKI设备，刷入截止"
+ui_print " "
+if [ ! -f "$home/Image" ]; then
+    ui_print " × 错误:未找到内核镜像文件'image'"
+    abort "× 刷入失败"
 fi
 
-ui_print "开始安装内核..."
-ui_print "Powered by GitHub@Numbersf (Aq1298 & 咿云冷雨)"
-
-split_boot
-if [ -f "split_img/ramdisk.cpio" ]; then
-    unpack_ramdisk
-    write_boot
+ui_print " "
+ui_print "- 开始刷入内核..."
+if [ -L "/dev/block/bootdevice/by-name/init_boot_a" -o -L "/dev/block/by-name/init_boot_a" ]; then
+    split_boot # for devices with init_boot ramdisk
+    flash_boot # for devices with init_boot ramdisk
 else
-    flash_boot
+    dump_boot # use split_boot to skip ramdisk unpack, e.g. for devices with init_boot ramdisk
+    write_boot # use flash_boot to skip ramdisk repack, e.g. for devices with init_boot ramdisk
 fi
-
-# =============
-# SUSFS 模块安装
-# =============
-if [ -f "$AKHOME/ksu_module_susfs_1.5.2+_Release.zip" ]; then
-    MODULE_PATH="$AKHOME/ksu_module_susfs_1.5.2+_Release.zip"
-    ui_print "  -> Found SUSFS Module (Release)"
-elif [ -f "$AKHOME/ksu_module_susfs_1.5.2+_CI.zip" ]; then
-    MODULE_PATH="$AKHOME/ksu_module_susfs_1.5.2+_CI.zip"
-    ui_print "  -> Found SUSFS Module (CI)"
-else
-    MODULE_PATH=""
-    ui_print "  -> No SUSFS Module found.You may have selected NON mode,skipping installation."
-fi
-
-if [ -n "$MODULE_PATH" ]; then
-    KSUD_PATH="/data/adb/ksud"
-    ui_print "============="
-    ui_print " 是否安装 SUSFS 模块？"
-    ui_print " Install susfs4ksu Module?"
-    ui_print "-----------------"
-    ui_print " 音量上键：跳过安装"
-    ui_print " 音量下键：安装模块"
-    ui_print " Volume UP: Skip installation"
-    ui_print " Volume DOWN: Install module"
-    ui_print "============="
-
-    key_click=""
-    while [ "$key_click" = "" ]; do
-        key_click=$(getevent -qlc 1 | awk '{ print $3 }' | grep 'KEY_VOLUME')
-        sleep 0.2
-    done
-
-    case "$key_click" in
-        "KEY_VOLUMEDOWN")
-            if [ -f "$KSUD_PATH" ]; then
-                ui_print " 正在安装 SUSFS 模块..."
-                ui_print " Installing SUSFS Module..."
-                /data/adb/ksud module install "$MODULE_PATH"
-                ui_print " 安装完成!"
-                ui_print " Installation complete!"
-            else
-                ui_print " 未找到 KSUD，跳过安装。"
-                ui_print " KSUD not found. Skipping installation."
-            fi
-            ;;
-        "KEY_VOLUMEUP")
-            ui_print " 已跳过 SUSFS 模块安装。"
-            ui_print " Skipped SUSFS Module installation."
-            ;;
-        *)
-            ui_print " 未知按键输入，已跳过 SUSFS 模块安装。"
-            ui_print " Unknown key input. Skipped SUSFS Module installation."
-            ;;
-    esac
-fi
+ui_print " √ 内核刷入完成"
+ui_print " "
+ui_print " - 已跳转qq群，进入组织或者频道获取最新资源或消息"
+        am start -a android.intent.action.VIEW -d "https://qun.qq.com/universal-share/share?ac=1&authKey=09GHYeotBX4cNL1o8w%2FF8j%2Bfx%2FcPIU0H5tMp5lO8ZXciwUxETL%2BEwe8gPbaldshS&busi_data=eyJncm91cENvZGUiOiIyODg0ODI5MTgiLCJ0b2tlbiI6InZSOUNTWWx1WVNJNWYrNlpUYWZEQkF4dmpQWVVwZFc1N1REVFFjYmpTR25MYldzTWxnK2NZRXhiVEZkbUtIUE8iLCJ1aW4iOiI0Mjg1NzkifQ%3D%3D&data=WwMC8aE8oVTgoGkPUiXAIs8nMVJZU4UkiWcX8qYMoFoNnTpIwVY7GCCZRX_1UO_Yi8udPzZuE_jESwmq4ABrwQ&svctype=4&tempid=h5_group_info"
