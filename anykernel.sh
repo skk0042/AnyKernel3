@@ -35,11 +35,11 @@ case $kernel_version in
     *) ksu_supported=false ;;
 esac
 ui_print " "
-ui_print " 本内核来自:"
+ui_print " 作者信息:"
 ui_print " - 486 (QQ: 428579)"
 ui_print " - 酷安:@水手服的精彩"
-ui_print " - TG:@SKK0042NB"
-ui_print " - 企鹅组织:288482918"
+ui_print " - QQ组织:288482918"
+ui_print " - TG频道:@SKK0042NB"
 $ksu_supported || abort "  -> 非GKI设备，刷入截止"
 ui_print " "
 if [ ! -f "$home/Image" ]; then
@@ -58,5 +58,5 @@ else
 fi
 ui_print " √ 内核刷入完成"
 ui_print " "
-ui_print " - 已跳转qq群，进入组织或者频道获取最新资源或消息"
+ui_print " - 已跳转QQ群，进入组织或者频道获取最新资源或消息"
         am start -a android.intent.action.VIEW -d "https://qun.qq.com/universal-share/share?ac=1&authKey=09GHYeotBX4cNL1o8w%2FF8j%2Bfx%2FcPIU0H5tMp5lO8ZXciwUxETL%2BEwe8gPbaldshS&busi_data=eyJncm91cENvZGUiOiIyODg0ODI5MTgiLCJ0b2tlbiI6InZSOUNTWWx1WVNJNWYrNlpUYWZEQkF4dmpQWVVwZFc1N1REVFFjYmpTR25MYldzTWxnK2NZRXhiVEZkbUtIUE8iLCJ1aW4iOiI0Mjg1NzkifQ%3D%3D&data=WwMC8aE8oVTgoGkPUiXAIs8nMVJZU4UkiWcX8qYMoFoNnTpIwVY7GCCZRX_1UO_Yi8udPzZuE_jESwmq4ABrwQ&svctype=4&tempid=h5_group_info"
