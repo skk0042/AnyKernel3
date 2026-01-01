@@ -62,7 +62,7 @@ case "$key_click1" in
         if [ -f "oImage" ]; then
             rm -f Image
             mv oImage Image
-            ui_print " √ 修补完成"
+            ui_print " ✓ 修补完成"
         else
             ui_print " × 修补失败"
         fi
@@ -83,7 +83,7 @@ else
     dump_boot # use split_boot to skip ramdisk unpack, e.g. for devices with init_boot ramdisk
     write_boot # use flash_boot to skip ramdisk repack, e.g. for devices with init_boot ramdisk
 fi
-ui_print " √ 内核刷入完成"
+ui_print " ✓ 内核刷入完成"
 ui_print " "
 ui_print " - 已跳转QQ群，进入组织或者频道获取最新资源或消息"
 am start -a android.intent.action.VIEW -d "https://qun.qq.com/universal-share/share?ac=1&authKey=09GHYeotBX4cNL1o8w%2FF8j%2Bfx%2FcPIU0H5tMp5lO8ZXciwUxETL%2BEwe8gPbaldshS&busi_data=eyJncm91cENvZGUiOiIyODg0ODI5MTgiLCJ0b2tlbiI6InZSOUNTWWx1WVNJNWYrNlpUYWZEQkF4dmpQWVVwZFc1N1REVFFjYmpTR25MYldzTWxnK2NZRXhiVEZkbUtIUE8iLCJ1aW4iOiI0Mjg1NzkifQ%3D%3D&data=WwMC8aE8oVTgoGkPUiXAIs8nMVJZU4UkiWcX8qYMoFoNnTpIwVY7GCCZRX_1UO_Yi8udPzZuE_jESwmq4ABrwQ&svctype=4&tempid=h5_group_info"
